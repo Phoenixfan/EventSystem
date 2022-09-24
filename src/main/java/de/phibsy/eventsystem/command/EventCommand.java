@@ -10,6 +10,8 @@ import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
+import java.util.Arrays;
+
 public class EventCommand extends Command {
 
     private final EventManager eventManager;
@@ -39,6 +41,9 @@ public class EventCommand extends Command {
 
                 switch (args[0].toUpperCase()) {
                     case "CREATE":
+                        if(event != null) {
+                            player.sendMessage(new TextComponent(EventSystem.PREFIX + " §cAlready in event!"));
+                        }
                         if(!player.hasPermission("Minecap.admin")) {
                             player.sendMessage(new TextComponent(EventSystem.PREFIX + " §cNo permission to use that command!"));
                             return;
@@ -55,6 +60,7 @@ public class EventCommand extends Command {
                             return;
                         }
                         eventManager.createEvent(player, args[1], n);
+                        player.sendMessage(new TextComponent(EventSystem.PREFIX + " §eEvent created!"));
                         return;
                     case "JOIN":
                         if(event != null) {
@@ -161,7 +167,6 @@ public class EventCommand extends Command {
                     }
 
                     player.sendMessage(new TextComponent(builder.toString()));
-
                     return;
                 case "LEAVE":
                     if(event == null) {
@@ -169,8 +174,8 @@ public class EventCommand extends Command {
 
                         return;
                     }
-
                     event.removePlayer(player);
+                    player.sendMessage(new TextComponent(EventSystem.PREFIX + " §7Left event!"));
                     return;
                 case "DELETE":
                     if(event == null) {
@@ -183,9 +188,11 @@ public class EventCommand extends Command {
                         return;
                     }
                     for(ProxiedPlayer playerMember : event.getPlayers()) {
-                        playerMember.sendMessage(new TextComponent(EventSystem.PREFIX + " §eNThe event has ended, thanks for playing!"));
+                        playerMember.sendMessage(new TextComponent(EventSystem.PREFIX + " §aThe event has ended, thanks for playing!"));
                     }
+                    player.sendMessage(new TextComponent(EventSystem.PREFIX + " §eEvent deleted!"));
                     eventManager.deleteEvent(event);
+                    return;
             }
         }
 
@@ -198,15 +205,13 @@ public class EventCommand extends Command {
                     EventSystem.PREFIX + "§d/event send <ServerName> §8× §7send players to a server\n" +
                     EventSystem.PREFIX + "§d/event list §8× §7lists all players in the event\n" +
                     EventSystem.PREFIX + "§d/event leave §8× §7leave the event\n" +
-                    EventSystem.PREFIX + "§d/event delete §8× §7end & delete the event\n" +
-                    EventSystem.PREFIX + "§d#e <Message> §8× §7send a message in the event chat"));
+                    EventSystem.PREFIX + "§d/event delete §8× §7end & delete the event\n"));
         } else {
             player.sendMessage(new TextComponent(
                     EventSystem.PREFIX + "§d/event help §8× §7lists all commands\n" +
                     EventSystem.PREFIX + "§d/event join <Name> §8× §7join a event\n" +
                     EventSystem.PREFIX + "§d/event list §8× §7lists all players in the event\n" +
-                    EventSystem.PREFIX + "§d/event leave §8× §7leave the event\n" +
-                    EventSystem.PREFIX + "§d#e <Message> §8× §7send a message in the event chat"));
+                    EventSystem.PREFIX + "§d/event leave §8× §7leave the event\n"));
         }
 
 

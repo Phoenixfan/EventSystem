@@ -25,7 +25,7 @@ public class EventSystem extends Plugin {
 
         //pluginManager.registerListener(this, new ServerSwitchListener());
         pluginManager.registerListener(this, new PlayerDisconnectListener());
-        pluginManager.registerListener(this, new ChatListener());
+        //pluginManager.registerListener(this, new ChatListener());
 
         pluginManager.registerCommand(this, new EventCommand(eventManager));
     }

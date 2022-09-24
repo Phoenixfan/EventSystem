@@ -1,6 +1,6 @@
 name: EventSystem
 author: "SocketConnection, Phibsy"
-version: "1.0"
+version: "1.0.1"
 main: de.phibsy.eventsystem.EventSystem
 commands:
   event:
