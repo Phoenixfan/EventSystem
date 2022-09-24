@@ -43,7 +43,18 @@ public class EventCommand extends Command {
                             player.sendMessage(new TextComponent(EventSystem.PREFIX + " §cNo permission to use that command!"));
                             return;
                         }
-
+                        if(args.length < 3) {
+                            player.sendMessage(new TextComponent(EventSystem.PREFIX + " §cNot enough args!"));
+                            return;
+                        }
+                        int n = 0;
+                        try {
+                            n = Integer.parseInt(args[2]);
+                        } catch (Exception e) {
+                            player.sendMessage(new TextComponent(EventSystem.PREFIX + " §cSize is not a number!"));
+                            return;
+                        }
+                        eventManager.createEvent(player, args[1], n);
                         return;
                     case "JOIN":
                         if(event != null) {
@@ -161,17 +172,33 @@ public class EventCommand extends Command {
 
                     event.removePlayer(player);
                     return;
+                case "DELETE":
+                    if(event == null) {
+                        player.sendMessage(new TextComponent(EventSystem.PREFIX + "§cYou are in no event!"));
+
+                        return;
+                    }
+                    if(!player.hasPermission("Minecap.admin")) {
+                        player.sendMessage(new TextComponent(EventSystem.PREFIX + " §cNo permission to use that command!"));
+                        return;
+                    }
+                    for(ProxiedPlayer playerMember : event.getPlayers()) {
+                        playerMember.sendMessage(new TextComponent(EventSystem.PREFIX + " §eNThe event has ended, thanks for playing!"));
+                    }
+                    eventManager.deleteEvent(event);
             }
         }
 
         if(player.hasPermission("Minecap.admin")) {
             player.sendMessage(new TextComponent(
                     EventSystem.PREFIX + "§d/event help §8× §7lists all commands\n" +
+                    EventSystem.PREFIX + "§d/event create <Name> <Size> §8× §7create a event\n" +
                     EventSystem.PREFIX + "§d/event join <Name> §8× §7join a event\n" +
                     EventSystem.PREFIX + "§d/event kick <Player> §8× §7kick a player\n" +
                     EventSystem.PREFIX + "§d/event send <ServerName> §8× §7send players to a server\n" +
                     EventSystem.PREFIX + "§d/event list §8× §7lists all players in the event\n" +
                     EventSystem.PREFIX + "§d/event leave §8× §7leave the event\n" +
+                    EventSystem.PREFIX + "§d/event delete §8× §7end & delete the event\n" +
                     EventSystem.PREFIX + "§d#e <Message> §8× §7send a message in the event chat"));
         } else {
             player.sendMessage(new TextComponent(
