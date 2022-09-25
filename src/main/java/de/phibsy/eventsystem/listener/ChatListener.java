@@ -19,14 +19,14 @@ public class ChatListener implements Listener {
         ProxiedPlayer player = (ProxiedPlayer) e.getSender();
         String[] args = e.getMessage().split(" ");
 
-        if(args.length < 2 || !args[0].equalsIgnoreCase("#p")) {
+        if(args.length < 2 || !args[0].equalsIgnoreCase("#e")) {
             return;
         }
 
         Event event = EventSystem.getInstance().getPartyManager().getEventByPlayer(player);
 
         if(event == null) {
-            player.sendMessage(new TextComponent(EventSystem.PREFIX + "§cYou are in no event!"));
+            player.sendMessage(new TextComponent(EventSystem.PREFIX + "§cYou are not in the event!"));
 
             e.setCancelled(true);
             return;

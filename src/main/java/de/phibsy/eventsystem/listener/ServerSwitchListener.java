@@ -20,8 +20,6 @@ public class ServerSwitchListener implements Listener {
             return;
         }
 
-        party.sendMessage("§dDie Party betritt den §5" + server.getName() + " §dServer!");
-
         for(ProxiedPlayer players : party.getPlayers()) {
             if(players.getServer().getInfo().equals(server)) {
                 continue;

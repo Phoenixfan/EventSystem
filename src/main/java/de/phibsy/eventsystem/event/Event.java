@@ -54,7 +54,7 @@ public class Event {
         if(players.size() < 2) {
             EventSystem.getInstance().getPartyManager().deleteEvent(this);
 
-            player.sendMessage(new TextComponent(EventSystem.PREFIX + "§cDie Party wurde aufgelöst!"));
+            player.sendMessage(new TextComponent(EventSystem.PREFIX + "§cEvent has ended!"));
 
             return;
         }
