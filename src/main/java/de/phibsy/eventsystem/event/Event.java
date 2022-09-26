@@ -42,9 +42,8 @@ public class Event {
 
     public void addPlayer(ProxiedPlayer player) {
         if(players.size() < size) {
-            sendMessage(player.getName() + " §7has joined the event!");
-
             players.add(player);
+            sendMessage(player.getName() + " §7has joined the event!");
         } else {
             player.sendMessage(new TextComponent(EventSystem.PREFIX + " §7Event is full"));
         }
